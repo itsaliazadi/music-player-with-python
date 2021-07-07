@@ -111,24 +111,14 @@ def open_music_player() :
                     except :
                         pass
                     
+
+        # Making next_page and previous_page buttons         
         next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=lambda:open_another_window("next_page"))
         next_page.place(x=120,y=480)
 
         previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=lambda:open_another_window("previous_page"))
         previous_page.place(x=280,y=480)
 
-        # def open_the_previous_window() :
-
-        #     for i in screen.winfo_children() :
-        #         i.destroy()
-        #     if pygame.mixer.music.get_busy() :
-        #         pygame.mixer.music.pause()
-        #     for i in new_audios :
-        #         if files[len(files) - 1] in i :
-        #             try :
-        #                 make_buttons(screen,new_audios[new_audios.index(i)-1])
-        #             except :
-        #                 pass
 
     def make_label() :
 

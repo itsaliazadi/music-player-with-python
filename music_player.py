@@ -48,6 +48,9 @@ def open_music_player() :
 
     def handle_the_audio(audio_name) :
 
+        if pygame.mixer.music.get_busy() :
+            pygame.mixer.music.pause()
+ 
         for i in paths:
             if audio_name in i:
                 play_the_audio(i)

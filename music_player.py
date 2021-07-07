@@ -4,11 +4,12 @@ import pygame.mixer
 from tkinter import *
 from tkinter import Tk
 
+# Collecting the musics in the computer via the Downloads folder
 directory = "C:\\Users\\User\\Downloads"
 audios = [i for i in os.listdir(directory) if '.mp3' in i]
 paths = [os.path.abspath(os.path.join(directory, i)) for i in audios]
 
-
+# Classifing the musics into fours member groups
 new_audios = list()
 running = True
 while running:
@@ -26,7 +27,8 @@ def open_music_player() :
     screen = Tk()
     pygame.mixer.init()
 
-    def resume_the_audio() :
+# create_resume_button() and create_stop_button() pause and unpause the current audio
+    def create_resume_button() :
 
         if pygame.mixer.music.get_busy() :
             pygame.mixer.music.pause()
@@ -36,8 +38,10 @@ def open_music_player() :
     def create_stop_button() :
 
         pygame.mixer.music.unpause()
-        stop = Button(screen, text='||', height=3, width=10, bg='red', command=resume_the_audio)
+        stop = Button(screen, text='||', height=3, width=10, bg='red', command=create_resume_button)
         stop.place(x=200, y=480)
+
+    
 
     def play_the_audio(audio) :
 
@@ -48,15 +52,17 @@ def open_music_player() :
 
     def handle_the_audio(audio_name) :
 
-        if pygame.mixer.music.get_busy() :
+        if pygame.mixer.music.get_busy() : # if some audio's playing, it firstly pauses it and them
             pygame.mixer.music.pause()
  
+        # Creating all the buttons related to the song
         for i in paths:
             if audio_name in i:
                 play_the_audio(i)
                 create_stop_button()
                 mainloop()
 
+    # Creating widgets for songs and bringing them onto the screen
     def make_buttons(window,files) :
 
         try :
@@ -87,7 +93,9 @@ def open_music_player() :
         except :
             pass
 
-        def open_the_next_window() :
+
+        # Creating another window either the "next page" button is clicked or the "previous page" button
+        def open_another_window(button) :
 
             for i in screen.winfo_children() :
                 i.destroy()
@@ -96,28 +104,32 @@ def open_music_player() :
             for i in new_audios  :
                 if files[len(files) - 1] in i :
                     try :
-                        make_buttons(screen,new_audios[new_audios.index(i)+1])
+                        if button == "next_page":
+                            make_buttons(screen,new_audios[new_audios.index(i)+1])
+                        elif button == "previous_page":
+                            make_buttons(screen,new_audios[new_audios.index(i)-1])
                     except :
                         pass
                     
-        next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=open_the_next_window)
+        next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=lambda:open_another_window("next_page"))
         next_page.place(x=120,y=480)
 
-        def open_the_previous_window() :
-
-            for i in screen.winfo_children() :
-                i.destroy()
-            if pygame.mixer.music.get_busy() :
-                pygame.mixer.music.pause()
-            for i in new_audios :
-                if files[len(files) - 1] in i :
-                    try :
-                        make_buttons(screen,new_audios[new_audios.index(i)-1])
-                    except :
-                        pass
-
-        previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=open_the_previous_window)
+        previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=lambda:open_another_window("previous_page"))
         previous_page.place(x=280,y=480)
+
+        # def open_the_previous_window() :
+
+        #     for i in screen.winfo_children() :
+        #         i.destroy()
+        #     if pygame.mixer.music.get_busy() :
+        #         pygame.mixer.music.pause()
+        #     for i in new_audios :
+        #         if files[len(files) - 1] in i :
+        #             try :
+        #                 make_buttons(screen,new_audios[new_audios.index(i)-1])
+        #             except :
+        #                 pass
+
     def make_label() :
 
         screen.geometry("500x600")

@@ -25,6 +25,9 @@ playing_audios = new_audios[new_audios_index]
 
 def open_music_player() :
     screen = Tk()
+    screen.wm_title('')
+    icon = PhotoImage(file="C:\\Users\\User\\Downloads\\music_player_logo.png")
+    screen.iconphoto(False, icon)
     pygame.mixer.init()
 
 # create_resume_button() and create_stop_button() pause and unpause the current audio
@@ -95,7 +98,7 @@ def open_music_player() :
 
 
         # Creating another window either the "next page" button is clicked or the "previous page" button
-        def open_another_window(button) :
+        def open_another_window() :
 
             for i in screen.winfo_children() :
                 i.destroy()
@@ -104,19 +107,16 @@ def open_music_player() :
             for i in new_audios  :
                 if files[len(files) - 1] in i :
                     try :
-                        if button == "next_page":
-                            make_buttons(screen,new_audios[new_audios.index(i)+1])
-                        elif button == "previous_page":
-                            make_buttons(screen,new_audios[new_audios.index(i)-1])
+                         make_buttons(screen,new_audios[new_audios.index(i)-1]) 
                     except :
                         pass
                     
 
         # Making next_page and previous_page buttons         
-        next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=lambda:open_another_window("next_page"))
+        next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=open_another_window)
         next_page.place(x=120,y=480)
 
-        previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=lambda:open_another_window("previous_page"))
+        previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=open_another_window)
         previous_page.place(x=280,y=480)
 
 

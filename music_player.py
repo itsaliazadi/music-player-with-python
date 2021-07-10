@@ -53,10 +53,26 @@ def open_music_player() :
         pygame.mixer.music.load(open(audio, 'rb'))
         pygame.mixer.music.play()
 
+    def change_the_volume(volume):
+
+        volume = int(volume) / 100
+        pygame.mixer.music.set_volume(volume)
+        
+
+
+    def make_scale_widget():
+
+        scale_widget = Scale(screen, from_=0, to=100, command=change_the_volume)
+        scale_widget.set(100)
+        scale_widget.place(x=445, y=240)
+
     def handle_the_audio(audio_name) :
 
         if pygame.mixer.music.get_busy() : # if some audio's playing, it firstly pauses it and them
             pygame.mixer.music.pause()
+        
+        # Creating the scale widget
+        make_scale_widget()
  
         # Creating all the buttons related to the song
         for i in paths:
@@ -95,6 +111,7 @@ def open_music_player() :
             audio_4.place(x=65,y=400)
         except :
             pass
+
 
 
         # Creating another window either the "next page" button is clicked or the "previous page" button

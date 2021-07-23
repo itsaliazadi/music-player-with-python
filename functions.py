@@ -1,30 +1,23 @@
+# All the functions related to the widgets
+
+
 import os
+import pydub
 import pygame
 import pygame.mixer
 from tkinter import *
 from tkinter import Tk
+from audios import audios, paths, playing_audios
 
-# Collecting the musics in the computer via the Downloads folder
-directory = "C:\\Users\\User\\Downloads"
-audios = [i for i in os.listdir(directory) if '.mp3' in i]
-paths = [os.path.abspath(os.path.join(directory, i)) for i in audios]
-
-# Classifing the musics into fours member groups
-new_audios = list()
-running = True
-while running:
-    new_audios.extend([audios[0:4]])
-    for i in audios[0:4]:
-        audios.remove(i)
-    if len(audios) < 4:
-        new_audios.extend([audios])
-        running = False
-new_audios_index = 0
-playing_audios = new_audios[new_audios_index]
+from tkinter import ttk
+from ttkthemes import ThemedTk
 
 
+
+
+screen = ThemedTk(theme="default")
 def open_music_player() :
-    screen = Tk()
+    
     screen.wm_title('')
     icon = PhotoImage(file="C:\\Users\\User\\Downloads\\music_player_logo.png")
     screen.iconphoto(False, icon)
@@ -35,13 +28,13 @@ def open_music_player() :
 
         if pygame.mixer.music.get_busy() :
             pygame.mixer.music.pause()
-            resume = Button(screen, text='resume', height=3, width=10, bg='red',command=create_stop_button)
+            resume = Button(screen, text='resume', height=3, width=10, bg='#49A',command=create_stop_button)
             resume.place(x=200, y=480)
 
     def create_stop_button() :
 
         pygame.mixer.music.unpause()
-        stop = Button(screen, text='||', height=3, width=10, bg='red', command=create_resume_button)
+        stop = Button(screen, text='||', height=3, width=10, bg='#49A', command=create_resume_button)
         stop.place(x=200, y=480)
 
     
@@ -63,7 +56,7 @@ def open_music_player() :
     def make_scale_widget():
 
         scale_widget = Scale(screen, from_=0, to=100, command=change_the_volume)
-        scale_widget.set(100)
+        scale_widget.set(50)
         scale_widget.place(x=445, y=240)
 
     def handle_the_audio(audio_name) :
@@ -78,6 +71,7 @@ def open_music_player() :
         for i in paths:
             if audio_name in i:
                 play_the_audio(i)
+                make_scale_widget()
                 create_stop_button()
                 mainloop()
 
@@ -85,28 +79,28 @@ def open_music_player() :
     def make_buttons(window,files) :
 
         try :
-            audio_1 = Button(window,text=files[0],height=4,width=40,bg='magenta',command=lambda : handle_the_audio(files[0]))
+            audio_1 = Button(window,text=files[0],height=4,width=40,bg="#6C3483",command=lambda : handle_the_audio(files[0]))
             audio_1.config(font=("Cooper Black",10))
             audio_1.place(x=65,y=160)
         except :
             pass
 
         try :
-            audio_2 = Button(window,text=files[1],height=4,width=40,bg='magenta',command=lambda : handle_the_audio(files[1]))
+            audio_2 = Button(window,text=files[1],height=4,width=40,bg='#6C3483',command=lambda : handle_the_audio(files[1]))
             audio_2.config(font=("Cooper Black",10))
             audio_2.place(x=65,y=240)
         except :
             pass
 
         try :
-            audio_3 = Button(window,text=files[2],height=4,width=40,bg='magenta',command=lambda : handle_the_audio(files[2]))
+            audio_3 = Button(window,text=files[2],height=4,width=40,bg='#6C3483',command=lambda : handle_the_audio(files[2]))
             audio_3.config(font=("Cooper Black", 10))
             audio_3.place(x=65,y=320)
         except :
             pass
 
         try :
-            audio_4 = Button(window,text=files[3],height=4,width=40,bg='magenta',command=lambda : handle_the_audio(files[3]))
+            audio_4 = Button(window,text=files[3],height=4,width=40,bg='#6C3483',command=lambda : handle_the_audio(files[3]))
             audio_4.config(font=("Cooper Black", 10))
             audio_4.place(x=65,y=400)
         except :
@@ -121,19 +115,19 @@ def open_music_player() :
                 i.destroy()
             if pygame.mixer.music.get_busy() :
                 pygame.mixer.music.pause()
-            for i in new_audios  :
+            for i in audios  :
                 if files[len(files) - 1] in i :
                     try :
-                         make_buttons(screen,new_audios[new_audios.index(i)-1]) 
+                         make_buttons(screen,audios[audios.index(i)-1]) 
                     except :
                         pass
                     
 
         # Making next_page and previous_page buttons         
-        next_page = Button(screen,text='next page',height=3,width=10,bg='green',command=open_another_window)
+        next_page = Button(screen,text='next page',height=3,width=10,bg='#116562',command=open_another_window)
         next_page.place(x=120,y=480)
 
-        previous_page = Button(screen,text='previous page',height=3,width=10,bg='green',command=open_another_window)
+        previous_page = Button(screen,text='previous page',height=3,width=10,bg='#116562',command=open_another_window)
         previous_page.place(x=280,y=480)
 
 
@@ -141,7 +135,7 @@ def open_music_player() :
 
         screen.geometry("500x600")
         guide_message = "Choose your favourite music!"
-        guide = Label(screen,text=guide_message,bg='cyan')
+        guide = Label(screen,text=guide_message,bg='#0E6655')
         guide.config(width=50,height=5)
         guide.config(font=("Arial CYR",10))
         guide.pack()
@@ -152,6 +146,3 @@ def open_music_player() :
     make_label()
 
 open_music_player()
-
-
-

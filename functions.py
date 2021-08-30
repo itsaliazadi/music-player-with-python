@@ -8,6 +8,7 @@ from PIL import ImageTk, Image
 from ttkthemes import ThemedTk
 from audios import audios, paths, playing_audios
 
+from time import sleep
 
 
 SCREEN = ThemedTk(themebg=True)
@@ -31,6 +32,7 @@ panel = Label(SCREEN, image = IMAGE)
 panel.place(x=-5, y=-10)
 pygame.mixer.init()
 
+
 def play_the_audio(audio) :
 
     for path in paths:
@@ -40,6 +42,7 @@ def play_the_audio(audio) :
     for widget in SCREEN.winfo_children():
         if 'scale' in str(widget):
             widget.set(1000)  
+    
     
     def make_position_slider():
 
@@ -69,6 +72,7 @@ def play_the_audio(audio) :
 
         def increase_pos():
 
+            
             position_slider.set(position_slider.get() + 1)
             SCREEN.after(1000, increase_pos)
         increase_pos()
@@ -97,6 +101,7 @@ def play_the_audio(audio) :
     def make_play_button() :
 
         resume = ttk.Button(SCREEN, text='▶',style='BW.TButton' ,command=make_stop_button)
+        pygame.mixer.music.pause()
         resume.place(x=185, y=510)
 
     def make_stop_button() :

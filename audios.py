@@ -16,5 +16,7 @@ while running:
     if len(dir_audios) < 4:
         audios.extend([dir_audios])
         running = False
+audios = [audio_group for audio_group in audios if len(audio_group) != 0]
 audios_index = 0
 playing_audios = audios[audios_index]
+

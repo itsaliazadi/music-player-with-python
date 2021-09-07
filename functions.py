@@ -20,8 +20,8 @@ STYLE.configure('BW.TButton', font=('TkIconFont', 13, 'bold'), foreground='#1165
 BG_IMAGE_PATH = "C:\\Users\\User\\Desktop\\wallpaper(copy).png"
 IMAGE = ImageTk.PhotoImage(Image.open(BG_IMAGE_PATH))
 
-# ICON = PhotoImage(file="C:\\Users\\User\\Downloads\\vector.png")
-# SCREEN.iconphoto(False, ICON)
+ICON = PhotoImage(file="C:\\Users\\User\\Desktop\\beat-music-player-2013-04-22.png")
+SCREEN.iconphoto(False, ICON)
 
 DEFAULT_VOLUME = 50
 IS_PAUSED = False
@@ -42,73 +42,96 @@ def play_the_audio(audio) :
     for widget in SCREEN.winfo_children():
         if 'scale' in str(widget):
             widget.set(1000)  
-    
-    
-    def make_position_slider():
-
-        pygame.mixer.music.load(open(audio, 'rb'))
-
-        def show_music_pos(pos):
-
-            delta = timedelta(seconds=pos)
-            delta_label = Label(SCREEN, text=str(delta), fg='#000066', bg='#b3b3b3', width=8)
-            delta_label.place(x=220,y=580)
-
-        def change_pos(current_pos):
-
-            current_pos = int(current_pos)
-            pygame.mixer.music.play(start=current_pos)
-            show_music_pos(current_pos)
+            # stop the audio when the song is nearly over.
+            # make_play_button()
 
 
-        audio_length = pygame.mixer.Sound(audio).get_length()
-        position_slider = Scale(SCREEN, from_=0, to=audio_length, sliderrelief='flat', 
-        orient='horizontal', troughcolor='black', length=400,
-        highlightbackground='#6C3483',
-        showvalue=False, command=change_pos)
-            
-        position_slider.place(x=55, y=550)
+    pygame.mixer.music.load(open(audio, 'rb'))
+
+    def show_music_pos(pos):
+
+        delta = timedelta(seconds=pos)
+        delta_label = Label(SCREEN, text=str(delta), fg='#000066', bg='#b3b3b3', width=8)
+        delta_label.place(x=220,y=580)
+
+    def change_pos(current_pos):
+
+        current_pos = int(current_pos)
+        print(current_pos)
+        pygame.mixer.music.play(start=current_pos)
+        show_music_pos(current_pos)
 
 
-        def increase_pos():
+    audio_length = pygame.mixer.Sound(audio).get_length()
+    position_slider = Scale(SCREEN, from_=0, to=audio_length, sliderrelief='flat', 
+    orient='horizontal', troughcolor='black', length=400,
+    highlightbackground='#6C3483',
+    showvalue=False, command=change_pos)
+        
+    position_slider.place(x=55, y=550)
 
-            
+
+    def increase_pos():
+
+        if IS_PAUSED == False:
             position_slider.set(position_slider.get() + 1)
             SCREEN.after(1000, increase_pos)
-        increase_pos()
+    increase_pos()
 
-        def change_the_volume(volume):
+    def change_the_volume(volume):
 
-            global DEFAULT_VOLUME
-            DEFAULT_VOLUME = volume
-            volume = int(volume) / 100
-            pygame.mixer.music.set_volume(volume)
-    
-
-        def make_volume_scale():
-
-            scale_widget = Scale(SCREEN, from_=0, to=100, sliderrelief='flat',
-                            troughcolor='black',width=11 ,length=110, highlightbackground='#6C3483',command=change_the_volume)
-            scale_widget.set(DEFAULT_VOLUME)
-            scale_widget.place(x=445, y=240)
+        global DEFAULT_VOLUME
+        DEFAULT_VOLUME = volume
+        volume = int(volume) / 100
+        pygame.mixer.music.set_volume(volume)
 
 
-        make_volume_scale()
+    def make_volume_scale():
+
+        scale_widget = Scale(SCREEN, from_=0, to=100, sliderrelief='flat',
+                        troughcolor='black',width=11 ,length=110, highlightbackground='#6C3483',command=change_the_volume)
+        scale_widget.set(DEFAULT_VOLUME)
+        scale_widget.place(x=445, y=240)
+
+
+    make_volume_scale()
 
             
-    make_position_slider()
+
+
+
+
+
+
+
+
+    
 
     def make_play_button() :
   
-        if pygame.mixer.music.get_busy() :
-            pygame.mixer.music.pause()
-            resume = ttk.Button(SCREEN, text='▶',style='BW.TButton' ,command=make_stop_button)
-            resume.place(x=185, y=510)
+        def unpause_music():
+
+            global IS_PAUSED
+            IS_PAUSED = False
+            pygame.mixer.music.unpause()
+            make_stop_button()
+            increase_pos()
+            
+
+        resume = ttk.Button(SCREEN, text='▶',style='BW.TButton' ,command=unpause_music)
+        resume.place(x=185, y=510)
 
     def make_stop_button() :
 
+        def pause_music():
+            
+            global IS_PAUSED
+            IS_PAUSED = True
+            pygame.mixer.music.pause()
+            make_play_button()
+
         pygame.mixer.music.unpause()
-        stop = ttk.Button(SCREEN, text='||',style='BW.TButton' ,command=make_play_button)
+        stop = ttk.Button(SCREEN, text='||',style='BW.TButton' ,command=pause_music)
         stop.place(x=185, y=510)   
     
     make_stop_button()

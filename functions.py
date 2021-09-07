@@ -99,13 +99,15 @@ def play_the_audio(audio) :
     make_position_slider()
 
     def make_play_button() :
-
-        resume = ttk.Button(SCREEN, text='▶',style='BW.TButton' ,command=make_stop_button)
-        pygame.mixer.music.pause()
-        resume.place(x=185, y=510)
+  
+        if pygame.mixer.music.get_busy() :
+            pygame.mixer.music.pause()
+            resume = ttk.Button(SCREEN, text='▶',style='BW.TButton' ,command=make_stop_button)
+            resume.place(x=185, y=510)
 
     def make_stop_button() :
 
+        pygame.mixer.music.unpause()
         stop = ttk.Button(SCREEN, text='||',style='BW.TButton' ,command=make_play_button)
         stop.place(x=185, y=510)   
     

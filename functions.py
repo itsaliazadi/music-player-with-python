@@ -18,7 +18,7 @@ from ttkthemes import ThemedTk
 screen = ThemedTk(theme="default")
 def open_music_player() :
     
-    screen.wm_title('')
+    screen.wm_title('music player')
     icon = PhotoImage(file="C:\\Users\\User\\Downloads\\music_player_logo.png")
     screen.iconphoto(False, icon)
     pygame.mixer.init()

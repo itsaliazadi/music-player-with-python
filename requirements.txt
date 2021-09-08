@@ -1,0 +1,5 @@
+pygame==2.0.1
+ttkthemes==3.2.2
+PIL=1.1.6
+tkinter=8.5
+Pillow==8.3.1

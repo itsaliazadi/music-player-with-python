@@ -10,8 +10,8 @@ from audios import audios, paths, playing_audios
 
 SCREEN = ThemedTk(themebg=True)
 STYLE = ttk.Style()
-BG_IMAGE_PATH = "C:\\Users\\User\\Desktop\\wallpaper(copy).png"
-ICON = PhotoImage(file="C:\\Users\\User\\Desktop\\beat-music-player-2013-04-22.png")
+BG_IMAGE_PATH = "Your path to the file"
+ICON = PhotoImage(file="Your path to the file")
 DEFAULT_VOLUME = 50
 is_paused = False
 

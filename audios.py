@@ -2,7 +2,7 @@ import os
 
 
 # Collecting the musics in the computer via the Downloads folder
-directory = "C:\\Users\\User\\Downloads"
+directory = "Your path to the file"
 dir_audios = [i for i in os.listdir(directory) if '.mp3' in i]
 paths = [os.path.abspath(os.path.join(directory, i)) for i in dir_audios]
 
